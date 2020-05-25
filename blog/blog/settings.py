@@ -125,20 +125,20 @@ STATICFILES_DIRS = [
 
 # redis的配置
 CACHES = {
-    "default": {  # default
+    "default": {  # 默认
         "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": "redis://127.0.0.1:6379/0",
         "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient"
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
     },
     "session": {  # session
         "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": "redis://127.0.0.1:6379/1",
         "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient"
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
-    }
+    },
 }
 # session由数据库存储改为redis
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
@@ -185,3 +185,7 @@ LOGGING = {
         },
     }
 }
+
+# 替换 系统的User 来使用自己定义的User
+# 配置信息 为'子应用名.模型类名'
+AUTH_USER_MODEL = 'users.User'
