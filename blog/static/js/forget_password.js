@@ -35,7 +35,7 @@ var vm = new Vue({
             var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
                 var r = (d + Math.random() * 16) % 16 | 0;
                 d = Math.floor(d / 16);
-                return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+                return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
             });
             return uuid;
         },
@@ -49,48 +49,28 @@ var vm = new Vue({
         //检查手机号
         check_mobile: function(){
             var re = /^1[3-9]\d{9}$/;
-            if (re.test(this.mobile)) {
-                this.mobile_error = false;
-            } else {
-                this.mobile_error = true;
-            }
+            this.mobile_error = !re.test(this.mobile);
         },
         //检查密码
         check_password:function () {
             var re = /^[0-9A-Za-z]{8,20}$/;
-            if (re.test(this.password)) {
-                this.password_error = false;
-            } else {
-                this.password_error = true;
-            }
+            this.password_error = !re.test(this.password);
         },
         //检查确认密码
         check_password2:function () {
-            if (this.password != this.password2) {
-                this.password2_error = true;
-            } else {
-                this.password2_error = false;
-            }
+            this.password2_error = this.password !== this.password2;
         },
         //检查验证码
         check_image_code:function () {
-            if (!this.image_code) {
-                this.image_code_error = true;
-            } else {
-                this.image_code_error = false;
-            }
+            this.image_code_error = !this.image_code;
         },
         //检查短信验证码
         check_sms_code:function () {
-            if (!this.sms_code) {
-                this.sms_code_error = true;
-            } else {
-                this.sms_code_error = false;
-            }
+            this.sms_code_error = !this.sms_code;
         },
         //发送短信验证码
         send_sms_code:function () {
-            if (this.sending_flag == true) {
+            if (this.sending_flag === true) {
                 return;
             }
 
@@ -99,7 +79,7 @@ var vm = new Vue({
             this.check_mobile();
             this.check_image_code();
 
-            if (this.mobile_error == true || this.image_code_error == true) {
+            if (this.mobile_error === true || this.image_code_error === true) {
                 this.sending_flag = false;
                 this.sms_code_error=true;
                 this.sms_code_error_message='手机号或验证码错误'
@@ -114,12 +94,12 @@ var vm = new Vue({
                 .then(response => {
                     this.image_code_error=false;
                     // 表示后端发送短信成功
-                    if (response.data.code == '0') {
+                    if (response.data.code === '0') {
                         // 倒计时60秒，60秒后允许用户再次点击发送短信验证码的按钮
                         var num = 60;
                         // 设置一个计时器
                         var t = setInterval(() => {
-                            if (num == 1) {
+                            if (num === 1) {
                                 // 如果计时器到最后, 清除计时器对象
                                 clearInterval(t);
                                 // 将点击获取验证码的按钮展示的文本回复成原始文本
@@ -133,7 +113,7 @@ var vm = new Vue({
                             }
                         }, 1000, 60)
                     } else {
-                        if (response.data.code == '4001') {
+                        if (response.data.code === '4001') {
                             //图片验证码错误
                             this.image_code_error = true;
                         }
@@ -154,8 +134,8 @@ var vm = new Vue({
             this.check_password2();
             this.check_sms_code();
 
-            if (this.mobile_error == true || this.password_error == true || this.password2_error == true
-                || this.image_code_error == true || this.sms_code_error == true) {
+            if (this.mobile_error === true || this.password_error === true || this.password2_error === true
+                || this.image_code_error === true || this.sms_code_error === true) {
                 // 不满足注册条件：禁用表单
                 window.event.returnValue = false;
             }

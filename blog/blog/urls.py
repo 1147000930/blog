@@ -15,6 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+# 图片访问的路由
+from django.conf import settings
+from django.conf.urls.static import static
 
 from django.http import HttpResponse
 # 1.导入系统的 logging
@@ -36,7 +39,12 @@ urlpatterns = [
     # urlconf_module 子应用的路由
     # app_name 子应用的名字
     # namespace 命名空间
-    path('', include(('users.urls', 'users'), namespace='users'))
+    path('', include(('users.urls', 'users'), namespace='users')),
 
     # path('', log)
+    path('', include(('home.urls', 'home'), namespace='home'))
+
 ]
+
+# 图片访问的路由
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

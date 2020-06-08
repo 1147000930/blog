@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # 子应用的注册
     'users.apps.UsersConfig',
+    'home.apps.HomeConfig',
 ]
 
 MIDDLEWARE = [
@@ -104,9 +105,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'zh-Hans'  # 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'  # 'UTC'
 
 USE_I18N = True
 
@@ -189,3 +190,9 @@ LOGGING = {
 # 替换 系统的User 来使用自己定义的User
 # 配置信息 为'子应用名.模型类名'
 AUTH_USER_MODEL = 'users.User'
+LOGIN_URL = '/login/'
+# 设置上传的图片 保存到media目录下
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+# 设置图片访问的统一路由
+MEDIA_URL = '/media/'
